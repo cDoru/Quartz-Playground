@@ -4,7 +4,7 @@ using Quartz;
 using Quartz.Core;
 using Quartz.Impl;
 
-namespace QuartzWebTemplate.AutoFacConfiguration
+namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 {
     /// <summary>
     ///     Scheduler factory which uses Autofac to instantiate jobs.

@@ -3,7 +3,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using CrystalQuartz.Web.Configuration;
 using Quartz;
-using QuartzWebTemplate.AutoFacConfiguration;
+using QuartzWebTemplate.Quartz.AutoFacConfiguration;
 
 namespace QuartzWebTemplate.Quartz.Scheduler
 {

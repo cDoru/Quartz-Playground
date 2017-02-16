@@ -5,7 +5,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 
-namespace QuartzWebTemplate.AutoFacConfiguration
+namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 {
     /// <summary>
     ///     Registers <see cref="ISchedulerFactory" /> and default <see cref="IScheduler" />.

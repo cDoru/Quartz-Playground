@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.WebApi;
-using QuartzWebTemplate.AutoFacConfiguration;
 using QuartzWebTemplate.Jobs;
 using QuartzWebTemplate.Quartz;
+using QuartzWebTemplate.Quartz.AutoFacConfiguration;
 using QuartzWebTemplate.Services;
 
 namespace QuartzWebTemplate.App_Start

@@ -6,7 +6,7 @@ using Common.Logging;
 using Quartz;
 using Quartz.Spi;
 
-namespace QuartzWebTemplate.AutoFacConfiguration
+namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 {
     /// <summary>
     ///     Resolve Quartz Job and it's dependencies from Autofac container.

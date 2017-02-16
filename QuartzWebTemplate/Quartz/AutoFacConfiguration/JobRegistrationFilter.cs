@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuartzWebTemplate.AutoFacConfiguration
+namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 {
     /// <summary>
     ///     Predicate to filter jobs to be registered.

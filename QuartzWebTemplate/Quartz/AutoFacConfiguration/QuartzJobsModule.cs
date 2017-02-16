@@ -5,7 +5,7 @@ using Autofac;
 using Quartz;
 using Module = Autofac.Module;
 
-namespace QuartzWebTemplate.AutoFacConfiguration
+namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 {
     /// <summary>
     ///     Registers Quartz jobs from specified assemblies.
