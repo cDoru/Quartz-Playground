@@ -241,11 +241,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="AutoFacConfiguration\JobFactory.cs" />
-    <Compile Include="AutoFacConfiguration\JobRegistrationFilter.cs" />
-    <Compile Include="AutoFacConfiguration\QuartzFactoryModule.cs" />
-    <Compile Include="AutoFacConfiguration\QuartzJobsModule.cs" />
-    <Compile Include="AutoFacConfiguration\SchedulerFactory.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -264,6 +259,11 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Quartz\AutoFacConfiguration\JobFactory.cs" />
+    <Compile Include="Quartz\AutoFacConfiguration\JobRegistrationFilter.cs" />
+    <Compile Include="Quartz\AutoFacConfiguration\QuartzFactoryModule.cs" />
+    <Compile Include="Quartz\AutoFacConfiguration\QuartzJobsModule.cs" />
+    <Compile Include="Quartz\AutoFacConfiguration\SchedulerFactory.cs" />
     <Compile Include="Quartz\Configuration.cs" />
     <Compile Include="Quartz\Configurations\QrtzTriggerConfiguration.cs" />
     <Compile Include="Quartz\Configurations\QrtzBlobTriggerConfiguration.cs" />
@@ -296,9 +296,12 @@
     <Compile Include="Quartz\Fakes\FakeDbSet.cs" />
     <Compile Include="Quartz\ISelfDescribingJob.cs" />
     <Compile Include="Quartz\JobInfo.cs" />
+    <Compile Include="Quartz\Scheduler\LazySchedulerProvider.cs" />
     <Compile Include="Quartz\Scheduler\DefaultQuartzSchedulerConfiguration.cs" />
     <Compile Include="Quartz\Scheduler\QuartzHelper.cs" />
     <Compile Include="Quartz\Scheduler\SchedulerUtils.cs" />
+    <Compile Include="Quartz\Security\BasicAuthentication.cs" />
+    <Compile Include="Quartz\Security\QuartzRedirectModule.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Quartz\Scheduler\SimpleSchedulerProvider.cs" />
     <Compile Include="Services\FailingHelloService.cs" />

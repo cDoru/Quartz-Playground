@@ -16,10 +16,10 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
     /// </remarks>
     public class JobFactory : IJobFactory, IDisposable
     {
-        static readonly ILog s_log = LogManager.GetLogger<JobFactory>();
-        readonly ILifetimeScope _lifetimeScope;
-
-        readonly string _scopeName;
+        private static readonly ILog SLog = LogManager.GetLogger<JobFactory>();
+        private readonly ILifetimeScope _lifetimeScope;
+        private readonly string _scopeName;
+        private ConcurrentDictionary<object, JobTrackingInfo> RunningJobs { get; set; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="JobFactory" /> class.
@@ -39,7 +39,6 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
             RunningJobs = new ConcurrentDictionary<object, JobTrackingInfo>();
         }
 
-        internal ConcurrentDictionary<object, JobTrackingInfo> RunningJobs { get; private set; }
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -51,7 +50,7 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 
             if (runningJobs.Length > 0)
             {
-                s_log.InfoFormat("Cleaned {0} scopes for running jobs", runningJobs.Length);
+                SLog.InfoFormat("Cleaned {0} scopes for running jobs", runningJobs.Length);
             }
         }
 
@@ -89,19 +88,22 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
             if (scheduler == null) throw new ArgumentNullException("scheduler");
 
             var jobType = bundle.JobDetail.JobType;
-
             var nestedScope = _lifetimeScope.BeginLifetimeScope(_scopeName);
+
+            var jobName = bundle.JobDetail.Key.Name;
 
             IJob newJob = null;
             try
             {
-                newJob = (IJob) nestedScope.Resolve(jobType);
+                newJob = //(IJob) nestedScope.Resolve(jobType);
+                    (IJob) nestedScope.ResolveKeyed(jobName, jobType);
+
                 var jobTrackingInfo = new JobTrackingInfo(nestedScope);
                 RunningJobs[newJob] = jobTrackingInfo;
 
-                if (s_log.IsTraceEnabled)
+                if (SLog.IsTraceEnabled)
                 {
-                    s_log.TraceFormat(CultureInfo.InvariantCulture, "Scope 0x{0:x} associated with Job 0x{1:x}",
+                    SLog.TraceFormat(CultureInfo.InvariantCulture, "Scope 0x{0:x} associated with Job 0x{1:x}",
                         jobTrackingInfo.Scope.GetHashCode(), newJob.GetHashCode());
                 }
 
@@ -131,7 +133,7 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
             JobTrackingInfo trackingInfo;
             if (!RunningJobs.TryRemove(job, out trackingInfo))
             {
-                s_log.WarnFormat("Tracking info for job 0x{0:x} not found", job.GetHashCode());
+                SLog.WarnFormat("Tracking info for job 0x{0:x} not found", job.GetHashCode());
                 // ReSharper disable once SuspiciousTypeConversion.Global
                 var disposableJob = job as IDisposable;
 
@@ -148,9 +150,9 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 
         static void DisposeScope(IJob job, ILifetimeScope lifetimeScope)
         {
-            if (s_log.IsTraceEnabled)
+            if (SLog.IsTraceEnabled)
             {
-                s_log.TraceFormat("Disposing Scope 0x{0:x} for Job 0x{1:x}",
+                SLog.TraceFormat("Disposing Scope 0x{0:x} for Job 0x{1:x}",
                     lifetimeScope == null ? 0 : lifetimeScope.GetHashCode(),
                     job == null ? 0 : job.GetHashCode());
             }
@@ -163,7 +165,7 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
 
         #region Job data
 
-        internal sealed class JobTrackingInfo
+        private sealed class JobTrackingInfo
         {
             /// <summary>
             ///     Initializes a new instance of the <see cref="T:System.Object" /> class.

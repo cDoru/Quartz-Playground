@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace QuartzWebTemplate.Services
@@ -20,7 +22,8 @@ namespace QuartzWebTemplate.Services
     {
         void IHelloService.SayHello()
         {
-            Console.WriteLine("hello");
+            //Console.WriteLine("hello");
+            Trace.WriteLine("well hello");
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Quartz;
 using QuartzWebTemplate.Quartz;
 using QuartzWebTemplate.Services;
@@ -7,7 +8,7 @@ namespace QuartzWebTemplate.Jobs
     [PersistJobDataAfterExecution]
     [DisallowConcurrentExecution]
     // ReSharper disable once ClassNeverInstantiated.Global
-    public  class HelloJob : ISelfDescribingJob
+    public class HelloJob : SelfDescribingJobBase
     {
         private readonly IHelloService _service;
 
@@ -16,21 +17,26 @@ namespace QuartzWebTemplate.Jobs
             _service = service;
         }
 
-        void IJob.Execute(IJobExecutionContext context)
+        public override void Execute(IJobExecutionContext context)
         {
             _service.SayHello();
         }
 
-        JobInfo ISelfDescribingJob.Describe
+
+        public override Action<SimpleScheduleBuilder> Cron
         {
             get
             {
-                return new JobInfo
-                {
-                    JobGroup = "JobGroup",
-                    JobName = "JobName"
-                };
+                return x =>
+                    x.WithIntervalInMinutes(1)
+                        .WithMisfireHandlingInstructionNextWithRemainingCount()
+                        .RepeatForever();
             }
+        }
+
+        protected override string Group
+        {
+            get { return "HelloGroup"; }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Security.AccessControl;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -18,7 +19,11 @@ namespace QuartzWebTemplate
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfiguration.ConfigureContainer();
-            SchedulerUtils.StartScheduler();
+            SchedulerUtils.ConfigureScheduler();
+            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.TraceLoggerFactoryAdapter
+            {
+                Level = Common.Logging.LogLevel.Info
+            };
         }
     }
 }

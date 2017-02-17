@@ -1,19 +1,17 @@
+using System.Collections.Generic;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using CrystalQuartz.Core.SchedulerProviders;
 using Quartz;
-using QuartzWebTemplate.Jobs;
 
 namespace QuartzWebTemplate.Quartz.Scheduler
 {
     // ReSharper disable once UnusedMember.Global
-    public class SimpleSchedulerProvider : StdSchedulerProvider
+    public class SimpleSchedulerProvider : LazySchedulerProvider
     {
         protected override System.Collections.Specialized.NameValueCollection GetSchedulerProperties()
         {
             return DefaultQuartzSchedulerConfiguration.GetConfiguration();
-            
         }
 
         protected override void InitScheduler(IScheduler scheduler)
@@ -22,33 +20,24 @@ namespace QuartzWebTemplate.Quartz.Scheduler
             var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver as AutofacWebApiDependencyResolver;
             if (dependencyResolver != null)
             {
-                ISelfDescribingJob helloJob;
-                if (TryResolve(dependencyResolver, JobConstants.HelloJobKey, out helloJob))
+                IEnumerable<ISelfDescribingJob> jobs;
+                if (TryResolve(dependencyResolver, out jobs))
                 {
-                    QuartzHelper.MaybeRegister(scheduler, helloJob, x => 
-                        x.WithIntervalInMinutes(1)
-                         .WithMisfireHandlingInstructionIgnoreMisfires()
-                         .RepeatForever());
-                }
-
-                ISelfDescribingJob failingHelloJob;
-                if (TryResolve(dependencyResolver, JobConstants.FailingHelloJobKey, out failingHelloJob))
-                {
-                    QuartzHelper.MaybeRegister(scheduler, failingHelloJob, x => 
-                        x.WithIntervalInMinutes(1)
-                         .WithMisfireHandlingInstructionIgnoreMisfires()
-                         .RepeatForever());
+                    foreach (var job in jobs)
+                    {
+                        QuartzHelper.MaybeRegister(scheduler, job);
+                    }
                 }
             }
         }
 
-        private static bool TryResolve<T>(AutofacWebApiDependencyResolver resolver, string key, out T instance)
+        private static bool TryResolve<T>(AutofacWebApiDependencyResolver resolver, out T instance)
         {
             instance = default(T);
 
             try
             {
-                instance = resolver.Container.ResolveKeyed<T>(key);
+                instance = resolver.Container.Resolve<T>();
                 return true;
             }
             catch

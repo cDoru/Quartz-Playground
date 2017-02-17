@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Configuration;
+using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using CrystalQuartz.Web.Configuration;
@@ -14,15 +15,26 @@ namespace QuartzWebTemplate.Quartz.Scheduler
             provider.Start();
         }
 
-        public static void StartScheduler()
+        public static void ConfigureScheduler()
         {
+            var enabledSetting = ConfigurationManager.AppSettings["QuartzAuthentication.Enabled"];
+            bool enabled;
+            if (!bool.TryParse(enabledSetting, out enabled) || !enabled) return;
+
             // perform some initialization - pass the job factory
             var configuredScheduler = ConfigUtils.SchedulerProvider.Scheduler;
+
+            if (configuredScheduler == null)
+            {
+                ConfigUtils.SchedulerProvider.Init();
+
+                configuredScheduler = ConfigUtils.SchedulerProvider.Scheduler;
+            }
 
             if (!configuredScheduler.IsStarted)
             {
                 var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver as AutofacWebApiDependencyResolver;
-
+                
                 if (dependencyResolver != null)
                 {
                     JobFactory factory;

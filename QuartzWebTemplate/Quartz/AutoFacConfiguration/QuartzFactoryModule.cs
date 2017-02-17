@@ -15,7 +15,7 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
         /// <summary>
         ///     Default name for nested lifetime scope.
         /// </summary>
-        public const string LifetimeScopeName = "quartz.job";
+        private const string LifetimeScopeName = "quartz.job";
 
         readonly string _lifetimeScopeName;
 
@@ -34,7 +34,7 @@ namespace QuartzWebTemplate.Quartz.AutoFacConfiguration
         /// </summary>
         /// <param name="lifetimeScopeName">Name of the lifetime scope to wrap job resolution and execution.</param>
         /// <exception cref="System.ArgumentNullException">lifetimeScopeName</exception>
-        public QuartzFactoryModule(string lifetimeScopeName)
+        private QuartzFactoryModule(string lifetimeScopeName)
         {
             if (lifetimeScopeName == null) throw new ArgumentNullException("lifetimeScopeName");
             _lifetimeScopeName = lifetimeScopeName;

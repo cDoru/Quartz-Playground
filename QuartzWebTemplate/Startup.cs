@@ -13,4 +13,5 @@ namespace QuartzWebTemplate
             ConfigureAuth(app);
         }
     }
+
 }

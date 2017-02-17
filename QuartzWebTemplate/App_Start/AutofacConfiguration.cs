@@ -1,6 +1,10 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
+using Autofac.Builder;
+using Autofac.Core;
 using Autofac.Integration.WebApi;
 using QuartzWebTemplate.Jobs;
 using QuartzWebTemplate.Quartz;
@@ -18,7 +22,8 @@ namespace QuartzWebTemplate.App_Start
             builder.RegisterModule(new QuartzFactoryModule());
             builder.RegisterModule(new QuartzJobsModule(typeof(AutofacConfiguration).Assembly));
 
-            RegisterDependencies(builder);
+            RegisterJobsDependencies(builder);
+            RegisterJobs(builder);
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacResolver(container));
@@ -26,13 +31,26 @@ namespace QuartzWebTemplate.App_Start
                  new AutofacWebApiDependencyResolver(container);
         }
 
-        private static void RegisterDependencies(ContainerBuilder builder)
+        private static void RegisterJobsDependencies(ContainerBuilder builder)
         {
             builder.RegisterType<HelloService>().As<IHelloService>().InstancePerLifetimeScope();
             builder.RegisterType<FailingHelloService>().As<IFailingHelloService>().InstancePerLifetimeScope();
+        }
 
-            builder.RegisterType<HelloJob>().As<ISelfDescribingJob>().Keyed<ISelfDescribingJob>(JobConstants.HelloJobKey).InstancePerLifetimeScope();
-            builder.RegisterType<FailingHelloJob>().As<ISelfDescribingJob>().Keyed<ISelfDescribingJob>(JobConstants.FailingHelloJobKey).InstancePerLifetimeScope();
+        private static void RegisterJobs(ContainerBuilder builder)
+        {
+            var type = typeof(ISelfDescribingJob);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract).ToList();
+            
+            foreach (var implementation in types)
+            {
+                builder.RegisterType(implementation)
+                    .As<ISelfDescribingJob>()
+                    .Keyed<ISelfDescribingJob>(implementation.Name)
+                    .InstancePerLifetimeScope();
+            }
         }
     }
 }
