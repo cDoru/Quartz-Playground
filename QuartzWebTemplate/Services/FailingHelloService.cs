@@ -8,8 +8,8 @@ namespace QuartzWebTemplate.Services
     {
         void IFailingHelloService.FailToSayHello()
         {
-            //throw new FailToSayHelloException();
-            Trace.WriteLine("fail to say hello");
+            throw new FailToSayHelloException();
+            //Trace.WriteLine("fail to say hello");
         }
     }
 
