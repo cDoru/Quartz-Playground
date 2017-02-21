@@ -57,10 +57,6 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging.Log4Net1210, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Log4Net1210.3.3.1\lib\net40\Common.Logging.Log4Net1210.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="CrystalQuartz.Core, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CrystalQuartz.Simple.4.1.1.0\lib\CrystalQuartz.Core.dll</HintPath>
       <Private>True</Private>
@@ -69,8 +65,8 @@
       <HintPath>..\packages\CrystalQuartz.Simple.4.1.1.0\lib\CrystalQuartz.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.6.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.6\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -250,6 +246,11 @@
     <Compile Include="Jobs\FailingHelloJob.cs" />
     <Compile Include="Jobs\HelloJob.cs" />
     <Compile Include="Jobs\JobConstants.cs" />
+    <Compile Include="Logging\CommonLoggingAppender.cs" />
+    <Compile Include="Logging\Log4NetGlobalVariablesContext.cs" />
+    <Compile Include="Logging\Log4NetLogger.cs" />
+    <Compile Include="Logging\Log4NetLoggerFactoryAdapter.cs" />
+    <Compile Include="Logging\Log4NetThreadVariablesContext.cs" />
     <Compile Include="Migrations\201702151626313_InitialMigration.cs" />
     <Compile Include="Migrations\201702151626313_InitialMigration.Designer.cs">
       <DependentUpon>201702151626313_InitialMigration.cs</DependentUpon>
