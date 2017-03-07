@@ -282,6 +282,8 @@
     <Compile Include="Quartz\Configurations\QrtzSimpleTriggerConfiguration.cs" />
     <Compile Include="Quartz\Configurations\QrtzSimpropTriggerConfiguration.cs" />
     <Compile Include="Quartz\Config\IQuartzConfiguration.cs" />
+    <Compile Include="Quartz\Config\QuartzConfiguration.cs" />
+    <Compile Include="Quartz\Config\QuartzConfigurationResult.cs" />
     <Compile Include="Quartz\ContainerHttpModule.cs" />
     <Compile Include="Quartz\DbContext\QuartzDbContext.cs" />
     <Compile Include="Quartz\DbContext\FakeQuartzDbContext.cs" />

@@ -6,18 +6,12 @@ using System.Web.Routing;
 using Common.Logging;
 using Common.Logging.Simple;
 using QuartzWebTemplate.App_Start;
-using QuartzWebTemplate.Quartz;
 using QuartzWebTemplate.Quartz.Scheduler;
 
 namespace QuartzWebTemplate
 {
     public class WebApiApplication : HttpApplication
     {
-        public override void Init()
-        {
-            
-        }
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
