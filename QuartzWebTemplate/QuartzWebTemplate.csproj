@@ -249,7 +249,6 @@
     </Compile>
     <Compile Include="Jobs\FailingHelloJob.cs" />
     <Compile Include="Jobs\HelloJob.cs" />
-    <Compile Include="Jobs\JobConstants.cs" />
     <Compile Include="Logging\CommonLoggingAppender.cs" />
     <Compile Include="Logging\Log4NetGlobalVariablesContext.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />
