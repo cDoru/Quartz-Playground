@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.Web;
+using QuartzWebTemplate.Quartz.Config;
 
 namespace QuartzWebTemplate.Quartz.Security
 {
@@ -9,12 +9,19 @@ namespace QuartzWebTemplate.Quartz.Security
     /// </summary>
     public class QuartzRedirectModule : IHttpModule
     {
+        private readonly Func<IQuartzConfiguration> _configuration;
+
+        public QuartzRedirectModule(Func<IQuartzConfiguration> configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void Init(HttpApplication context)
         {
             context.BeginRequest += ContextBeginRequest;
         }
 
-        static void ContextBeginRequest(object sender, EventArgs e)
+        private void ContextBeginRequest(object sender, EventArgs e)
         {
             var context = ((HttpApplication)sender).Context;
             var request = context.Request;
@@ -23,20 +30,12 @@ namespace QuartzWebTemplate.Quartz.Security
             {
                 // check quartz is enabled
 
-                var enabledSetting = ConfigurationManager.AppSettings["QuartzAuthentication.Enabled"];
+                var enabled = _configuration().GetConfiguration().QuartzAuthenticationEnabled;
 
-                bool enabled;
-                if (!bool.TryParse(enabledSetting, out enabled))
-                {
-                    context.Response.Redirect("/", true);
-                    return;
-                };
-
-                if (!enabled)
-                {
-                    context.Response.Redirect("/", true);
-                    return;
-                }
+                if (enabled) return;
+                
+                context.Response.Redirect("/", true);
+                return;
             }
         }
 

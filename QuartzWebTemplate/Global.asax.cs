@@ -1,16 +1,23 @@
-﻿using System.Security.AccessControl;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Common.Logging;
+using Common.Logging.Simple;
 using QuartzWebTemplate.App_Start;
+using QuartzWebTemplate.Quartz;
 using QuartzWebTemplate.Quartz.Scheduler;
 
 namespace QuartzWebTemplate
 {
     public class WebApiApplication : HttpApplication
     {
+        public override void Init()
+        {
+            
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -20,9 +27,9 @@ namespace QuartzWebTemplate
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfiguration.ConfigureContainer();
             SchedulerUtils.ConfigureScheduler();
-            Common.Logging.LogManager.Adapter = new Common.Logging.Simple.TraceLoggerFactoryAdapter
+            LogManager.Adapter = new TraceLoggerFactoryAdapter
             {
-                Level = Common.Logging.LogLevel.Info
+                Level = LogLevel.Info
             };
         }
     }

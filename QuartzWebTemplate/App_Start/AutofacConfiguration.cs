@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
-using Autofac.Builder;
-using Autofac.Core;
 using Autofac.Integration.WebApi;
-using QuartzWebTemplate.Jobs;
 using QuartzWebTemplate.Quartz;
 using QuartzWebTemplate.Quartz.AutoFacConfiguration;
+using QuartzWebTemplate.Quartz.Config;
+using QuartzWebTemplate.Quartz.Security;
 using QuartzWebTemplate.Services;
 
 namespace QuartzWebTemplate.App_Start
 {
     public class AutofacConfiguration
     {
+        private static IContainer Container { get; set; }
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
@@ -25,16 +26,22 @@ namespace QuartzWebTemplate.App_Start
             RegisterJobsDependencies(builder);
             RegisterJobs(builder);
 
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacResolver(container));
+            Container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacResolver(Container));
             GlobalConfiguration.Configuration.DependencyResolver =
-                 new AutofacWebApiDependencyResolver(container);
+                 new AutofacWebApiDependencyResolver(Container);
         }
 
         private static void RegisterJobsDependencies(ContainerBuilder builder)
         {
             builder.RegisterType<HelloService>().As<IHelloService>().InstancePerLifetimeScope();
             builder.RegisterType<FailingHelloService>().As<IFailingHelloService>().InstancePerLifetimeScope();
+            builder.RegisterType<QuartzConfiguration>().As<IQuartzConfiguration>().InstancePerLifetimeScope();
+
+            builder.Register<Func<IQuartzConfiguration>>(x => () => Container.Resolve<IQuartzConfiguration>());
+
+            builder.RegisterType<BasicAuthentication>().As<IHttpModule>().InstancePerLifetimeScope();
+            builder.RegisterType<QuartzRedirectModule>().As<IHttpModule>().InstancePerLifetimeScope();
         }
 
         private static void RegisterJobs(ContainerBuilder builder)

@@ -1,12 +1,19 @@
 ﻿using System;
-using System.Configuration;
 using System.Text;
 using System.Web;
+using QuartzWebTemplate.Quartz.Config;
 
 namespace QuartzWebTemplate.Quartz.Security
 {
     public class BasicAuthentication : IHttpModule
     {
+        private readonly Func<IQuartzConfiguration> _configuration;
+
+        public BasicAuthentication(Func<IQuartzConfiguration> configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void Init(HttpApplication context)
         {
             context.BeginRequest += ContextBeginRequest;
@@ -14,9 +21,9 @@ namespace QuartzWebTemplate.Quartz.Security
 
         private void ContextBeginRequest(object sender, EventArgs e)
         {
-            var context = ((HttpApplication)sender).Context;
+            var context = ((HttpApplication) sender).Context;
             var request = context.Request;
-            
+
             if (!IsQuartz(request))
             {
                 return;
@@ -32,8 +39,8 @@ namespace QuartzWebTemplate.Quartz.Security
             {
                 return;
             }
-                
-            var httpApplication = (HttpApplication)sender;
+
+            var httpApplication = (HttpApplication) sender;
             httpApplication.Context.Response.Clear();
             httpApplication.Context.Response.Status = "401 Unauthorized";
             httpApplication.Context.Response.StatusCode = 401;
@@ -46,23 +53,15 @@ namespace QuartzWebTemplate.Quartz.Security
             return request.RawUrl.Contains("CrystalQuartzPanel.axd");
         }
 
-        private static bool IsRequired()
+        private bool IsRequired()
         {
-            var requiredSetting = ConfigurationManager.AppSettings["QuartzAuthentication.Required"];
-            if (string.IsNullOrWhiteSpace(requiredSetting)) return false;
-            requiredSetting = requiredSetting.Trim().ToLower();
-            return requiredSetting == "1" || requiredSetting == "true";
+            return _configuration().GetConfiguration().QuartzAuthenticationRequired;
         }
 
-        private static bool ValidateCredentials()
+        private bool ValidateCredentials()
         {
-            var validUsername = ConfigurationManager.AppSettings["QuartzAuthentication.Username"];
-            if (string.IsNullOrEmpty(validUsername))
-                return false;
-
-            var validPassword = ConfigurationManager.AppSettings["QuartzAuthentication.Password"];
-            if (string.IsNullOrEmpty(validPassword))
-                return false;
+            var validUsername = _configuration().GetConfiguration().QuartzAuthenticationUsername;
+            var validPassword = _configuration().GetConfiguration().QuartzAuthenticationPassword;
 
             var header = Request.Headers["Authorization"];
             if (string.IsNullOrEmpty(header))
@@ -76,7 +75,8 @@ namespace QuartzWebTemplate.Quartz.Security
 
             // Decode the Base64 encoded credentials
             var credentialsBase64DecodedArray = Convert.FromBase64String(credentials);
-            var decodedCredentials = Encoding.UTF8.GetString(credentialsBase64DecodedArray, 0, credentialsBase64DecodedArray.Length);
+            var decodedCredentials = Encoding.UTF8.GetString(credentialsBase64DecodedArray, 0,
+                credentialsBase64DecodedArray.Length);
 
             // Get username and password
             var separatorPosition = decodedCredentials.IndexOf(':');
@@ -90,15 +90,13 @@ namespace QuartzWebTemplate.Quartz.Security
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return false;
 
-            return String.Equals(username, validUsername, StringComparison.CurrentCultureIgnoreCase) && password == validPassword;
+            return String.Equals(username, validUsername, StringComparison.CurrentCultureIgnoreCase) &&
+                   password == validPassword;
         }
 
         private static HttpRequest Request
         {
-            get
-            {
-                return HttpContext.Current.Request;
-            }
+            get { return HttpContext.Current.Request; }
         }
 
         public void Dispose()
