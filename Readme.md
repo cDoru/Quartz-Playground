@@ -13,4 +13,9 @@ It also showcases protecting the web.config db connection string with the rsa pr
 
 Run the migrations (run the following command : Update-Database -Script -ConfigurationTypeName Configuration -Verbose -ConnectionString "Data Source=.;Initial Catalog=Quartz;Integrated Security=True;" -ConnectionProviderName "System.Data.SqlClient" - this assumes that you created a db on your local sql instance called Quartz. 
 
+Use the following script to add another migration : 
+
+
+Add-Migration -Verbose -ConfigurationTypeName Configuration -ConnectionString "Data Source=.;Initial Catalog=Quartz;Integrated Security=True;" -ConnectionProviderName "System.Data.SqlClient" [MIGRATION_NAME_HERE] 
+
 Start the project
