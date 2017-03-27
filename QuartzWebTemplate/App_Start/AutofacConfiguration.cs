@@ -5,9 +5,11 @@ using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.WebApi;
+using QuartzWebTemplate.Configuration;
 using QuartzWebTemplate.Quartz;
 using QuartzWebTemplate.Quartz.AutoFacConfiguration;
 using QuartzWebTemplate.Quartz.Config;
+using QuartzWebTemplate.Quartz.Scheduler;
 using QuartzWebTemplate.Quartz.Security;
 using QuartzWebTemplate.Services;
 
@@ -42,6 +44,11 @@ namespace QuartzWebTemplate.App_Start
 
             builder.RegisterType<BasicAuthentication>().As<IHttpModule>().InstancePerLifetimeScope();
             builder.RegisterType<QuartzRedirectModule>().As<IHttpModule>().InstancePerLifetimeScope();
+            builder.RegisterType<DefaultQuartzSchedulerConfiguration>()
+                .As<IQuartzConfigurationProvider>()
+                .SingleInstance();
+
+            builder.RegisterType<ConfigurationProvider>().As<IConfigurationProvider>().SingleInstance();
         }
 
         private static void RegisterJobs(ContainerBuilder builder)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using Autofac;
@@ -11,7 +12,18 @@ namespace QuartzWebTemplate.Quartz.Scheduler
     {
         protected override System.Collections.Specialized.NameValueCollection GetSchedulerProperties()
         {
-            return DefaultQuartzSchedulerConfiguration.GetConfiguration();
+            
+            var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver as AutofacWebApiDependencyResolver;
+            if (dependencyResolver != null)
+            {
+                IQuartzConfigurationProvider provider;
+                if (TryResolve(dependencyResolver, out provider))
+                {
+                    return provider.GetConfiguration();
+                }
+            }
+
+            throw new Exception("Could not resolve quartz configuration provider service");
         }
 
         protected override void InitScheduler(IScheduler scheduler)

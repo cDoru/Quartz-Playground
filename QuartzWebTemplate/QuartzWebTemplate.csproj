@@ -241,6 +241,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Configuration\ConfigurationKeys.cs" />
+    <Compile Include="Configuration\ConfigurationProvider.cs" />
+    <Compile Include="Configuration\IConfigurationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
@@ -317,6 +320,7 @@
     <Compile Include="Quartz\Fakes\FakeDbSet.cs" />
     <Compile Include="Quartz\ISelfDescribingJob.cs" />
     <Compile Include="Quartz\JobInfo.cs" />
+    <Compile Include="Quartz\Scheduler\IQuartzConfigurationProvider.cs" />
     <Compile Include="Quartz\Scheduler\LazySchedulerProvider.cs" />
     <Compile Include="Quartz\Scheduler\DefaultQuartzSchedulerConfiguration.cs" />
     <Compile Include="Quartz\Scheduler\QuartzHelper.cs" />
