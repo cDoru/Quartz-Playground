@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
-using System.Web;
 
 namespace QuartzWebTemplate.KeepAlive
 {
@@ -10,13 +9,13 @@ namespace QuartzWebTemplate.KeepAlive
         /// <summary>
         /// Determines the status fo the Scheduler
         /// </summary>        
-        public bool Cancelled { get; set; }
+        private bool Cancelled { get; set; }
 
         /// <summary>
         /// The frequency of checks against hte POP3 box are 
         /// performed in Seconds.
         /// </summary>
-        private int CheckFrequency = 180;
+        private int _checkFrequency = 180;
 
         private readonly AutoResetEvent _waitHandle = new AutoResetEvent(false);
 
@@ -33,7 +32,7 @@ namespace QuartzWebTemplate.KeepAlive
         /// <param name="checkFrequency">Frequency that checks are performed in seconds</param>
         public void Start(int checkFrequency)
         {
-            CheckFrequency = checkFrequency;
+            _checkFrequency = checkFrequency;
             Cancelled = false;
 
             var t = new Thread(Run);
@@ -45,7 +44,7 @@ namespace QuartzWebTemplate.KeepAlive
         /// active it will stop after the current message processing
         /// completes
         /// </summary>
-        public void Stop()
+        private void Stop()
         {
             lock (_syncLock)
             {
@@ -66,7 +65,7 @@ namespace QuartzWebTemplate.KeepAlive
             // *** Start out  waiting
             lock (_syncLock)
             {
-                _waitHandle.WaitOne(CheckFrequency * 1000, true);
+                _waitHandle.WaitOne(_checkFrequency * 1000, true);
             }   
 
             while (!Cancelled)
@@ -74,10 +73,9 @@ namespace QuartzWebTemplate.KeepAlive
                 // *** Http Ping to force the server to stay alive 
                 PingServer();
 
-                // *** Put in 
                 lock (_syncLock)
                 {
-                    _waitHandle.WaitOne(CheckFrequency * 1000, true);
+                    _waitHandle.WaitOne(_checkFrequency * 1000, true);
                 }
             }
         }
@@ -91,9 +89,9 @@ namespace QuartzWebTemplate.KeepAlive
                 var path = BasePathHolder.BasePath;
                 http.DownloadString(path + KeepAliveConstants.RelativeKeepAlivePath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                string message = ex.Message;
+                // ignored
             }
         }
 
