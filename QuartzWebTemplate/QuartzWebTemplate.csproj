@@ -256,6 +256,7 @@
     <Compile Include="KeepAlive\BasePathHolder.cs" />
     <Compile Include="KeepAlive\KeepAliveConstants.cs" />
     <Compile Include="KeepAlive\KeepAliveUtils.cs" />
+    <Compile Include="KeepAlive\Lock.cs" />
     <Compile Include="KeepAlive\Scheduler.cs" />
     <Compile Include="Logging\CommonLoggingAppender.cs" />
     <Compile Include="Logging\Log4NetGlobalVariablesContext.cs" />

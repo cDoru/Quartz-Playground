@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace QuartzWebTemplate.KeepAlive
+﻿namespace QuartzWebTemplate.KeepAlive
 {
     public class BasePathHolder
     {
-        private static readonly object _lock = new object();
+        private static readonly object Lock = new object();
 
         private static string _basePath;
         public static string BasePath
@@ -15,7 +10,7 @@ namespace QuartzWebTemplate.KeepAlive
             get { return _basePath; }
             set
             {
-                lock (_lock)
+                using (new Lock(Lock))
                 {
                     _basePath = value;
                 }
