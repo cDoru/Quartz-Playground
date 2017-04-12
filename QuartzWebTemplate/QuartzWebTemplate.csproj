@@ -275,6 +275,10 @@
     <Compile Include="Migrations\201703271206132_AddQuartzIndexes.Designer.cs">
       <DependentUpon>201703271206132_AddQuartzIndexes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704120848434_AddApplicationLock.cs" />
+    <Compile Include="Migrations\201704120848434_AddApplicationLock.Designer.cs">
+      <DependentUpon>201704120848434_AddApplicationLock.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Embedded\EmbeddedKeys.cs" />
     <Compile Include="Migrations\Embedded\EmbeddedUtil.cs" />
     <Compile Include="Migrations\Embedded\ThisAssembly.cs" />
@@ -364,6 +368,9 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="Migrations\201704120848434_AddApplicationLock.resx">
+      <DependentUpon>201704120848434_AddApplicationLock.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\Embedded\Drop_Quartz_Indexes.sql" />
     <EmbeddedResource Include="Migrations\Embedded\Create_Quartz_Indexes.sql" />
     <Content Include="Scripts\bootstrap.js" />
