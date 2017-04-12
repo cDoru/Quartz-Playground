@@ -330,6 +330,7 @@
     <Compile Include="Quartz\Locking\Contracts\ILock.cs" />
     <Compile Include="Quartz\Locking\Helpers\DistributedLockHelpers.cs" />
     <Compile Include="Quartz\Locking\Helpers\SqlHelpers.cs" />
+    <Compile Include="Quartz\Locking\Impl\Encryptor.cs" />
     <Compile Include="Quartz\Locking\Impl\Lock.cs" />
     <Compile Include="Quartz\Locking\Impl\SqlAppLock.cs" />
     <Compile Include="Quartz\Locking\Results\LockAcquisitionResult.cs" />
