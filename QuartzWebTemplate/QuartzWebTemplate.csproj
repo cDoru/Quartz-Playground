@@ -286,6 +286,7 @@
     <Compile Include="Quartz\AutoFacConfiguration\QuartzJobsModule.cs" />
     <Compile Include="Quartz\AutoFacConfiguration\SchedulerFactory.cs" />
     <Compile Include="Quartz\Configuration.cs" />
+    <Compile Include="Quartz\Configurations\ApplicationLockConfiguration.cs" />
     <Compile Include="Quartz\Configurations\QrtzTriggerConfiguration.cs" />
     <Compile Include="Quartz\Configurations\QrtzBlobTriggerConfiguration.cs" />
     <Compile Include="Quartz\Configurations\QrtzCalendarConfiguration.cs" />
