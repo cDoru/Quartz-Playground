@@ -22,7 +22,7 @@ namespace QuartzWebTemplate.Quartz.DbContext
         DbSet<QrtzSimpleTrigger> QrtzSimpleTriggers { get; set; } // QRTZ_SIMPLE_TRIGGERS
         DbSet<QrtzSimpropTrigger> QrtzSimpropTriggers { get; set; } // QRTZ_SIMPROP_TRIGGERS
         DbSet<QrtzTrigger> QrtzTriggers { get; set; } // QRTZ_TRIGGERS
-
+        DbSet<ApplicationLock> Locks { get; }
         int SaveChanges();
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

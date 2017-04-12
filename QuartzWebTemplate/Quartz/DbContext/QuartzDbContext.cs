@@ -1,9 +1,6 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
 using QuartzWebTemplate.Quartz.Configurations;
 using QuartzWebTemplate.Quartz.Entities;
 
@@ -22,6 +19,8 @@ namespace QuartzWebTemplate.Quartz.DbContext
         public DbSet<QrtzSimpleTrigger> QrtzSimpleTriggers { get; set; } // QRTZ_SIMPLE_TRIGGERS
         public DbSet<QrtzSimpropTrigger> QrtzSimpropTriggers { get; set; } // QRTZ_SIMPROP_TRIGGERS
         public DbSet<QrtzTrigger> QrtzTriggers { get; set; } // QRTZ_TRIGGERS
+
+        public DbSet<ApplicationLock> Locks { get; set; }
 
         //static QuartzDbContext()
         //{
