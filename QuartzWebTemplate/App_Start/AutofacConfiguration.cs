@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure.DependencyResolution;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -32,6 +34,9 @@ namespace QuartzWebTemplate.App_Start
             DependencyResolver.SetResolver(new AutofacResolver(Container));
             GlobalConfiguration.Configuration.DependencyResolver =
                  new AutofacWebApiDependencyResolver(Container);
+
+            // inject autofac into ef's resolver
+            DbConfiguration.Loaded += DbConfiguration_Loaded;
         }
 
         private static void RegisterJobsDependencies(ContainerBuilder builder)
@@ -65,6 +70,11 @@ namespace QuartzWebTemplate.App_Start
                     .Keyed<ISelfDescribingJob>(implementation.Name)
                     .InstancePerLifetimeScope();
             }
+        }
+
+        static void DbConfiguration_Loaded(object sender, DbConfigurationLoadedEventArgs e)
+        {
+            e.AddDependencyResolver(new WrappingEfAutofacResolver(e.DependencyResolver, Container), true);
         }
     }
 }
