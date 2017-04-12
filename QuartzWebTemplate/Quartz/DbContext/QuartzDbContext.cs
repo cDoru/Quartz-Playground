@@ -72,6 +72,7 @@ namespace QuartzWebTemplate.Quartz.DbContext
             modelBuilder.Configurations.Add(new QrtzSimpleTriggerConfiguration());
             modelBuilder.Configurations.Add(new QrtzSimpropTriggerConfiguration());
             modelBuilder.Configurations.Add(new QrtzTriggerConfiguration());
+            modelBuilder.Configurations.Add(new ApplicationLockConfiguration());
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
@@ -87,8 +88,9 @@ namespace QuartzWebTemplate.Quartz.DbContext
             modelBuilder.Configurations.Add(new QrtzSimpleTriggerConfiguration(schema));
             modelBuilder.Configurations.Add(new QrtzSimpropTriggerConfiguration(schema));
             modelBuilder.Configurations.Add(new QrtzTriggerConfiguration(schema));
+            modelBuilder.Configurations.Add(new ApplicationLockConfiguration());
+            
             return modelBuilder;
         }
     }
-
 }

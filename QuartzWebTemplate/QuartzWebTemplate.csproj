@@ -248,6 +248,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Exceptions\LockAcquisitionException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -323,6 +324,13 @@
     <Compile Include="Quartz\Fakes\FakeDbSet.cs" />
     <Compile Include="Quartz\ISelfDescribingJob.cs" />
     <Compile Include="Quartz\JobInfo.cs" />
+    <Compile Include="Quartz\Locking\IAppLock.cs" />
+    <Compile Include="Quartz\Locking\IDisposableShim.cs" />
+    <Compile Include="Quartz\Locking\IEncryptor.cs" />
+    <Compile Include="Quartz\Locking\ILock.cs" />
+    <Compile Include="Quartz\Locking\LockAcquisitionResult.cs" />
+    <Compile Include="Quartz\Locking\LockReleaseResult.cs" />
+    <Compile Include="Quartz\Locking\ReleaseLockFailure.cs" />
     <Compile Include="Quartz\Scheduler\IQuartzConfigurationProvider.cs" />
     <Compile Include="Quartz\Scheduler\LazySchedulerProvider.cs" />
     <Compile Include="Quartz\Scheduler\DefaultQuartzSchedulerConfiguration.cs" />
@@ -403,7 +411,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Quartz\Locking\" />
     <Folder Include="Trace\" />
   </ItemGroup>
   <ItemGroup>
