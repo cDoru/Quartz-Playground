@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.DependencyResolution;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -32,6 +33,8 @@ namespace QuartzWebTemplate.App_Start
             RegisterJobsDependencies(builder);
             RegisterJobs(builder);
 
+            AutowireProperties(builder);
+
             Container = builder.Build();
             DependencyResolver.SetResolver(new AutofacResolver(Container));
             GlobalConfiguration.Configuration.DependencyResolver =
@@ -39,6 +42,15 @@ namespace QuartzWebTemplate.App_Start
 
             // inject autofac into ef's resolver
             DbConfiguration.Loaded += DbConfiguration_Loaded;
+        }
+
+        private static void AutowireProperties(ContainerBuilder builder)
+        {
+            builder.RegisterApiControllers(typeof(Inner).Assembly)
+                .PropertiesAutowired();
+
+            builder.RegisterType<WebApiApplication>()
+                .PropertiesAutowired();
         }
 
         private static void RegisterJobsDependencies(ContainerBuilder builder)
@@ -83,4 +95,6 @@ namespace QuartzWebTemplate.App_Start
             e.AddDependencyResolver(new WrappingEfAutofacResolver(e.DependencyResolver, Container), true);
         }
     }
+
+    internal sealed class Inner { }
 }
