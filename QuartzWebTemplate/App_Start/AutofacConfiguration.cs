@@ -11,6 +11,8 @@ using QuartzWebTemplate.Configuration;
 using QuartzWebTemplate.Quartz;
 using QuartzWebTemplate.Quartz.AutoFacConfiguration;
 using QuartzWebTemplate.Quartz.Config;
+using QuartzWebTemplate.Quartz.Locking.Contracts;
+using QuartzWebTemplate.Quartz.Locking.Impl;
 using QuartzWebTemplate.Quartz.Scheduler;
 using QuartzWebTemplate.Quartz.Security;
 using QuartzWebTemplate.Services;
@@ -54,6 +56,10 @@ namespace QuartzWebTemplate.App_Start
                 .SingleInstance();
 
             builder.RegisterType<ConfigurationProvider>().As<IConfigurationProvider>().SingleInstance();
+
+            builder.RegisterType<Encryptor>().As<IEncryptor>().SingleInstance();
+            builder.RegisterType<SqlAppLock>().As<IAppLock>().InstancePerLifetimeScope();
+            builder.RegisterType<Lock>().As<ILock>().InstancePerLifetimeScope();
         }
 
         private static void RegisterJobs(ContainerBuilder builder)
