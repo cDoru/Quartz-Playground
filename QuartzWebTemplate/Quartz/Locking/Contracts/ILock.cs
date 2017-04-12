@@ -1,6 +1,6 @@
 using System;
 
-namespace QuartzWebTemplate.Quartz.Locking
+namespace QuartzWebTemplate.Quartz.Locking.Contracts
 {
     public interface ILock
     {

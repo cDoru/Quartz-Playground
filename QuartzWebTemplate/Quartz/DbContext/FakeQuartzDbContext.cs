@@ -23,6 +23,7 @@ namespace QuartzWebTemplate.Quartz.DbContext
         public DbSet<QrtzSimpleTrigger> QrtzSimpleTriggers { get; set; }
         public DbSet<QrtzSimpropTrigger> QrtzSimpropTriggers { get; set; }
         public DbSet<QrtzTrigger> QrtzTriggers { get; set; }
+        public DbSet<ApplicationLock> Locks { get; set; }
 
         public FakeQuartzDbContext()
         {
@@ -37,6 +38,7 @@ namespace QuartzWebTemplate.Quartz.DbContext
             QrtzSimpleTriggers = new FakeDbSet<QrtzSimpleTrigger>("SchedName", "TriggerName", "TriggerGroup");
             QrtzSimpropTriggers = new FakeDbSet<QrtzSimpropTrigger>("SchedName", "TriggerName", "TriggerGroup");
             QrtzTriggers = new FakeDbSet<QrtzTrigger>("SchedName", "TriggerName", "TriggerGroup");
+            Locks = new FakeDbSet<ApplicationLock>("Id");
         }
 
         public int SaveChangesCount { get; private set; }
