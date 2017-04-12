@@ -1,4 +1,5 @@
 ﻿using System;
+using QuartzWebTemplate.Quartz.Locking.Results;
 
 namespace QuartzWebTemplate.Quartz.Locking.Contracts
 {

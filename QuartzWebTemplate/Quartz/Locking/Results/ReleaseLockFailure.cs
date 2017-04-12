@@ -1,4 +1,4 @@
-﻿namespace QuartzWebTemplate.Quartz.Locking
+﻿namespace QuartzWebTemplate.Quartz.Locking.Results
 {
     public enum ReleaseLockFailure
     {

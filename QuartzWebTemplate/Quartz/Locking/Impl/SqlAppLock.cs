@@ -7,6 +7,7 @@ using System.Text;
 using QuartzWebTemplate.Configuration;
 using QuartzWebTemplate.Quartz.Locking.Contracts;
 using QuartzWebTemplate.Quartz.Locking.Helpers;
+using QuartzWebTemplate.Quartz.Locking.Results;
 
 namespace QuartzWebTemplate.Quartz.Locking.Impl
 {
