@@ -249,6 +249,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Exceptions\DataMapIdentifierNullException.cs" />
+    <Compile Include="Exceptions\DataMapKeyMissingException.cs" />
     <Compile Include="Exceptions\LockAcquisitionException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -344,6 +346,8 @@
     <Compile Include="Quartz\Scheduler\SchedulerUtils.cs" />
     <Compile Include="Quartz\Security\BasicAuthentication.cs" />
     <Compile Include="Quartz\Security\QuartzRedirectModule.cs" />
+    <Compile Include="Quartz\SelfDescribingJobBase.cs" />
+    <Compile Include="Quartz\SelfLockingAndDescribingJobBase.cs" />
     <Compile Include="Quartz\Util\LockUtil.cs" />
     <Compile Include="Quartz\Util\SequentialGuid.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
