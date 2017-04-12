@@ -332,9 +332,9 @@
     <Compile Include="Quartz\Locking\Helpers\SqlHelpers.cs" />
     <Compile Include="Quartz\Locking\Impl\Lock.cs" />
     <Compile Include="Quartz\Locking\Impl\SqlAppLock.cs" />
-    <Compile Include="Quartz\Locking\LockAcquisitionResult.cs" />
-    <Compile Include="Quartz\Locking\LockReleaseResult.cs" />
-    <Compile Include="Quartz\Locking\ReleaseLockFailure.cs" />
+    <Compile Include="Quartz\Locking\Results\LockAcquisitionResult.cs" />
+    <Compile Include="Quartz\Locking\Results\LockReleaseResult.cs" />
+    <Compile Include="Quartz\Locking\Results\ReleaseLockFailure.cs" />
     <Compile Include="Quartz\Scheduler\IQuartzConfigurationProvider.cs" />
     <Compile Include="Quartz\Scheduler\LazySchedulerProvider.cs" />
     <Compile Include="Quartz\Scheduler\DefaultQuartzSchedulerConfiguration.cs" />
