@@ -304,6 +304,7 @@
     <Compile Include="Quartz\DbContext\QuartzDbContext.cs" />
     <Compile Include="Quartz\DbContext\FakeQuartzDbContext.cs" />
     <Compile Include="Quartz\DbContext\IQuartzDbContext.cs" />
+    <Compile Include="Quartz\Entities\ApplicationLock.cs" />
     <Compile Include="Quartz\Entities\QrtzTrigger.cs" />
     <Compile Include="Quartz\Entities\QrtzBlobTrigger.cs" />
     <Compile Include="Quartz\Entities\QrtzCalendar.cs" />
@@ -328,6 +329,8 @@
     <Compile Include="Quartz\Scheduler\SchedulerUtils.cs" />
     <Compile Include="Quartz\Security\BasicAuthentication.cs" />
     <Compile Include="Quartz\Security\QuartzRedirectModule.cs" />
+    <Compile Include="Quartz\Util\LockUtil.cs" />
+    <Compile Include="Quartz\Util\SequentialGuid.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Quartz\Scheduler\SimpleSchedulerProvider.cs" />
     <Compile Include="Services\FailingHelloService.cs" />
@@ -399,6 +402,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Quartz\Locking\" />
     <Folder Include="Trace\" />
   </ItemGroup>
   <ItemGroup>
