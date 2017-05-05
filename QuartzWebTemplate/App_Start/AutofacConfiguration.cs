@@ -72,6 +72,7 @@ namespace QuartzWebTemplate.App_Start
             builder.RegisterType<Encryptor>().As<IEncryptor>().SingleInstance();
             builder.RegisterType<SqlAppLock>().As<IAppLock>().InstancePerLifetimeScope();
             builder.RegisterType<Lock>().As<ILock>().InstancePerLifetimeScope();
+            builder.RegisterType<SynchronizationTokenHolder>().As<ISynchronizationTokenHolder>().SingleInstance();
         }
 
         private static void RegisterJobs(ContainerBuilder builder)

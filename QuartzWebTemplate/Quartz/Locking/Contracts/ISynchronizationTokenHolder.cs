@@ -2,6 +2,13 @@
 {
     interface ISynchronizationTokenHolder
     {
-        object Token { get; }
+        object GetTokenFor(TokenFor @for);
+    }
+
+    public enum TokenFor
+    {
+        Undefined,
+        JobsLocking,
+        ApiLocking
     }
 }

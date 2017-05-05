@@ -1,18 +1,40 @@
+using System;
+using System.Collections.Concurrent;
 using QuartzWebTemplate.Quartz.Locking.Contracts;
 
 namespace QuartzWebTemplate.Quartz.Locking.Impl
 {
     public class SynchronizationTokenHolder : ISynchronizationTokenHolder
     {
-        private readonly object _token;
+        private readonly object _tokenObject;
+        private readonly ConcurrentDictionary<TokenFor, object> Tokens;
+
         public SynchronizationTokenHolder()
         {
-            _token = new object();
+            _tokenObject = new object();
+            Tokens = new ConcurrentDictionary<TokenFor, object>();
         }
 
-        public object Token
+        public object GetTokenFor(TokenFor @for)
         {
-            get { return _token; }
+            lock (_tokenObject)
+            {
+                if (Tokens.ContainsKey(@for))
+                {
+                    object token;
+                    if ((token = Tokens[@for]) == null)
+                        throw new InvalidOperationException("token is null");
+
+                    return token;
+                }
+                else
+                {
+                    var token = new object();
+                    if (!Tokens.TryAdd(@for, token))
+                        throw new InvalidOperationException("Could not add token");
+                    return token;
+                }
+            }
         }
     }
 }
