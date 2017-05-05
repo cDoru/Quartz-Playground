@@ -325,6 +325,7 @@
     <Compile Include="Quartz\Entities\QrtzSchedulerState.cs" />
     <Compile Include="Quartz\Entities\QrtzSimpleTrigger.cs" />
     <Compile Include="Quartz\Entities\QrtzSimpropTrigger.cs" />
+    <Compile Include="Quartz\Entities\TokenFor.cs" />
     <Compile Include="Quartz\Fakes\FakeDbAsyncEnumerator.cs" />
     <Compile Include="Quartz\Fakes\FakeDbAsyncEnumerable.cs" />
     <Compile Include="Quartz\Fakes\FakeDbAsyncQueryProvider.cs" />
