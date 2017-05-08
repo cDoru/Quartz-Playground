@@ -968,3 +968,12 @@ Temporary Items
 /packages/log4net.2.0.3/lib/net40-full/log4net.dll
 /packages/log4net.2.0.3/lib/net40-full/log4net.xml
 /packages/log4net.2.0.3/log4net.2.0.3.nupkg
+/QuartzWebTemplate/bin/Google.ProtocolBuffers.Serialization.dll
+/QuartzWebTemplate/bin/Google.ProtocolBuffers.dll
+/QuartzWebTemplate/bin/SuperSocket.ClientEngine.dll
+/QuartzWebTemplate/bin/SuperSocket.Common.dll
+/QuartzWebTemplate/bin/SuperSocket.Facility.dll
+/QuartzWebTemplate/bin/SuperSocket.ProtoBase.dll
+/QuartzWebTemplate/bin/SuperSocket.SocketBase.dll
+/QuartzWebTemplate/bin/SuperSocket.SocketEngine.dll
+/QuartzWebTemplate/bin/SuperSocket.SocketService.exe
