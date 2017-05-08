@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.WebApi;
 using QuartzWebTemplate.Configuration;
-using QuartzWebTemplate.Quartz;
+using QuartzWebTemplate.Infrastructure.Contracts;
 using QuartzWebTemplate.Quartz.AutoFacConfiguration;
 using QuartzWebTemplate.Quartz.Config;
 using QuartzWebTemplate.Quartz.Locking.Contracts;
@@ -17,6 +17,7 @@ using QuartzWebTemplate.Quartz.Locking.Impl;
 using QuartzWebTemplate.Quartz.Scheduler;
 using QuartzWebTemplate.Quartz.Security;
 using QuartzWebTemplate.Services;
+using QuartzWebTemplate.Infrastructure;
 
 namespace QuartzWebTemplate.App_Start
 {
@@ -34,7 +35,7 @@ namespace QuartzWebTemplate.App_Start
             JobsConfiguration.RegisterJobs(builder);
 
             AutowireProperties(builder);
-
+            builder.Register<IResolver>(c => new Resolver(Container));
             Container = builder.Build();
             DependencyResolver.SetResolver(new AutofacResolver(Container));
             GlobalConfiguration.Configuration.DependencyResolver =

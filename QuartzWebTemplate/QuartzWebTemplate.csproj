@@ -256,9 +256,12 @@
     <Compile Include="Exceptions\DataMapIdentifierNullException.cs" />
     <Compile Include="Exceptions\DataMapKeyMissingException.cs" />
     <Compile Include="Exceptions\LockAcquisitionException.cs" />
+    <Compile Include="Exceptions\ResolverException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Contracts\IResolver.cs" />
+    <Compile Include="Infrastructure\Resolver.cs" />
     <Compile Include="Jobs\Attributes\AutofacJobKeyAttribute.cs" />
     <Compile Include="Jobs\Attributes\DontRegisterAttribute.cs" />
     <Compile Include="Jobs\Attributes\LifetimeSelectAttribute.cs" />
@@ -267,6 +270,7 @@
     <Compile Include="Jobs\FailingHelloJob.cs" />
     <Compile Include="Jobs\HelloJob.cs" />
     <Compile Include="Jobs\JobKeys.cs" />
+    <Compile Include="Jobs\SpinJob.cs" />
     <Compile Include="KeepAlive\BasePathHolder.cs" />
     <Compile Include="KeepAlive\KeepAliveConstants.cs" />
     <Compile Include="KeepAlive\KeepAliveUtils.cs" />

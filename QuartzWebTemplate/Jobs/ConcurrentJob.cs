@@ -12,9 +12,10 @@ namespace QuartzWebTemplate.Jobs
     [DontRegister]
     public class ConcurrentJob : ISelfDescribingJob
     {
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            throw new NotImplementedException();
+           /* throw new NotImplementedException();*/
+            await Task.Delay(10000);
         }
 
         public JobInfo Describe
