@@ -3,9 +3,10 @@ using System.IO;
 using System.Net;
 using Google.ProtocolBuffers;
 using ProtobufMessages.Client;
+using QuartzWebTemplate.Infrastructure.Contracts;
 using SuperSocket.ClientEngine;
 
-namespace QuartzWebTemplate.Infrastructure.Contracts
+namespace QuartzWebTemplate.Infrastructure
 {
     public class SocketImplementation : ISocket
     {
@@ -36,7 +37,6 @@ namespace QuartzWebTemplate.Infrastructure.Contracts
                     var data = stream.ToArray();
                     _socketClient.Send(new ArraySegment<byte>(data));
                 }
-                
             }
         }
 

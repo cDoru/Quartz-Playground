@@ -61,7 +61,7 @@ namespace QuartzWebTemplate.App_Start
             builder.RegisterType<QuartzConfiguration>().As<IQuartzConfiguration>().InstancePerLifetimeScope();
             builder.RegisterType<NowImplementation>().As<INow>().InstancePerLifetimeScope();
             builder.Register<Func<IQuartzConfiguration>>(x => () => Container.Resolve<IQuartzConfiguration>());
-
+            builder.RegisterType<ISocket>().As<SocketImplementation>().SingleInstance();
             builder.RegisterType<BasicAuthentication>().As<IHttpModule>().InstancePerLifetimeScope();
             builder.RegisterType<QuartzRedirectModule>().As<IHttpModule>().InstancePerLifetimeScope();
             builder.RegisterType<DefaultQuartzSchedulerConfiguration>()

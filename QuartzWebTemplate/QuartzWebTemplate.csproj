@@ -302,9 +302,9 @@
     <Compile Include="Infrastructure\Contracts\INow.cs" />
     <Compile Include="Infrastructure\Contracts\IResolver.cs" />
     <Compile Include="Infrastructure\Contracts\ISocket.cs" />
-    <Compile Include="Infrastructure\Contracts\SocketImplementation.cs" />
     <Compile Include="Infrastructure\NowImplementation.cs" />
     <Compile Include="Infrastructure\Resolver.cs" />
+    <Compile Include="Infrastructure\SocketImplementation.cs" />
     <Compile Include="Jobs\Attributes\AutofacJobKeyAttribute.cs" />
     <Compile Include="Jobs\Attributes\DontRegisterAttribute.cs" />
     <Compile Include="Jobs\Attributes\LifetimeSelectAttribute.cs" />
@@ -512,7 +512,6 @@
     <Content Include="supersocket.cmd" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Infrastructure\Socket\" />
     <Folder Include="Trace\" />
   </ItemGroup>
   <ItemGroup>
