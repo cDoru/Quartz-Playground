@@ -2,7 +2,7 @@
 
 namespace QuartzWebTemplate.Infrastructure.Contracts
 {
-    interface ISocket
+    public interface ISocket
     {
         void Send(string message, ConsoleColor color);
     }

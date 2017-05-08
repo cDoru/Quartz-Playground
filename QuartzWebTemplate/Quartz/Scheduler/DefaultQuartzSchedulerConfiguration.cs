@@ -8,7 +8,6 @@ namespace QuartzWebTemplate.Quartz.Scheduler
         private readonly IConfigurationProvider _configurationProvider;
         // Misfire : see http://nurkiewicz.blogspot.com/2012/04/quartz-scheduler-misfire-instructions.html
         private const int ThreadCount = 10;
-        private const string ThreadPriority = "Normal";
         private const string InstanceId = "AUTO";
         private const string DataSource = "default";
         private const string Provider = "SqlServer-20";
@@ -17,10 +16,11 @@ namespace QuartzWebTemplate.Quartz.Scheduler
         private const string InstanceIdKey = "quartz.scheduler.instanceId";
         private const string ThreadPoolTypeKey = "quartz.threadPool.type";
         private const string ThreadPoolThreadCountKey = "quartz.threadPool.threadCount";
-        private const string ThreadPoolThreadPriorityKey = "quartz.threadPool.threadPriority";
         private const string JobStoreMisforeThresholdKey = "quartz.jobStore.misfireThreshold";
         private const string JobStoreTypeKey = "quartz.jobStore.type";
         private const string ClusteredKey = "quartz.jobStore.clustered";
+
+        private const string QuartzSerializerTypeKey = "quartz.serializer.type";
 
         private const string JobStoreDataSourceKey = "quartz.jobStore.dataSource";
         private const string JobStoreTablePrefixKey = "quartz.jobStore.tablePrefix";
@@ -54,7 +54,7 @@ namespace QuartzWebTemplate.Quartz.Scheduler
                 {InstanceIdKey, InstanceId},
                 {ThreadPoolTypeKey, "Quartz.Simpl.SimpleThreadPool, Quartz"},
                 {ThreadPoolThreadCountKey, ThreadCount.ToString()},
-                {ThreadPoolThreadPriorityKey, ThreadPriority},
+                {QuartzSerializerTypeKey, "json"},
                 {JobStoreMisforeThresholdKey, "60000"},
                 {JobStoreTypeKey, "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz"},
                 {JobStoreUsePropertiesKey, "true"},

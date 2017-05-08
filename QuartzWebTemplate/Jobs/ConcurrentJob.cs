@@ -2,8 +2,10 @@
 using System.Threading.Tasks;
 using Quartz;
 using QuartzWebTemplate.Exceptions;
+using QuartzWebTemplate.Infrastructure.Contracts;
 using QuartzWebTemplate.Jobs.Attributes;
 using QuartzWebTemplate.Quartz;
+using QuartzWebTemplate.Quartz.Locking.SemaphoreLocking;
 
 namespace QuartzWebTemplate.Jobs
 {
@@ -13,6 +15,13 @@ namespace QuartzWebTemplate.Jobs
     [DontRegister]
     public class ConcurrentJob : ISelfDescribingJob
     {
+        private readonly ISocket _socket;
+
+        public ConcurrentJob(ISocket socket)
+        {
+            _socket = socket;
+        }
+
         public async Task Execute(IJobExecutionContext context)
         {
             if (MissfireHelper.IsMissedFire(context))
@@ -21,8 +30,8 @@ namespace QuartzWebTemplate.Jobs
             }
             
             var dataMap = context.MergedJobDataMap;
-            var myName = dataMap[JobKeys.JobDataName] as string;
-            if (myName == null)
+            var taskName = dataMap[JobKeys.JobDataName] as string;
+            if (taskName == null)
             {
                 throw new DataMapItemMissingException(JobKeys.JobDataName);
             }
@@ -33,13 +42,36 @@ namespace QuartzWebTemplate.Jobs
                 throw new DataMapItemMissingException(JobKeys.JobDataColor);
             }
 
-            var color = (ConsoleColor) Enum.Parse(typeof (ConsoleColor), colorRaw);
+            var consoleColor = (ConsoleColor) Enum.Parse(typeof (ConsoleColor), colorRaw);
 
+            ColoredConsoleWriteLine(consoleColor, string.Format("Entered {0}. Acquiring lock", taskName));
 
+            for (var j = 0; j < 5; j++)
+            {
+                ColoredConsoleWriteLine(consoleColor, string.Format("Writing {0} from task {1}", j, taskName));
+            }
 
+            using (await CriticalRegionAsyncLock.CreateAsync(TokenHolder.SynchronizationToken))
+            {
+                ColoredConsoleWriteLine(consoleColor, string.Format("Entered lock from task {0}. Starting critical region", taskName));
+                //CRITICAL REGION
 
-           /* throw new NotImplementedException();*/
-            await Task.Delay(10000);
+                for (var i = 0; i < 10; i++)
+                {
+                    ColoredConsoleWriteLine(consoleColor, taskName);
+                    await Task.Delay(100);
+                }
+
+                // END OF CRITICAL REGION
+                ColoredConsoleWriteLine(consoleColor, string.Format("Finished critical region. Exiting lock from task {0}", taskName));
+            }
+
+            ColoredConsoleWriteLine(consoleColor, string.Format("Exiting task {0}", taskName));
+        }
+
+        private void ColoredConsoleWriteLine(ConsoleColor color, string text)
+        {
+            _socket.Send(text, color);
         }
 
         public JobInfo Describe
