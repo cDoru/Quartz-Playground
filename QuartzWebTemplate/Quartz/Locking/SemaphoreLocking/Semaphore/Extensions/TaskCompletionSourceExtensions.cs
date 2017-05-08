@@ -22,7 +22,10 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Extensions
         public static bool TryCompleteFromCompletedTask<TResult, TSourceResult>(this TaskCompletionSource<TResult> @this, Task<TSourceResult> task) where TSourceResult : TResult
         {
             if (task.IsFaulted)
+            {
                 return task.Exception != null && @this.TrySetException(task.Exception.InnerExceptions);
+            }
+
             return task.IsCanceled ? @this.TrySetCanceled() : @this.TrySetResult(task.Result);
         }
 
@@ -37,7 +40,10 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Extensions
         public static bool TryCompleteFromEventArgs<TResult>(this TaskCompletionSource<TResult> @this, AsyncCompletedEventArgs eventArgs, Func<TResult> getResult)
         {
             if (eventArgs.Cancelled)
+            {
                 return @this.TrySetCanceled();
+            }
+
             return eventArgs.Error != null ? @this.TrySetException(eventArgs.Error) : @this.TrySetResult(getResult());
         }
 
@@ -50,7 +56,10 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Extensions
         public static bool TryCompleteFromCompletedTask(this TaskCompletionSource @this, Task task)
         {
             if (task.IsFaulted)
+            {
                 return task.Exception != null && @this.TrySetException(task.Exception.InnerExceptions);
+            }
+
             return task.IsCanceled ? @this.TrySetCanceled() : @this.TrySetResult();
         }
 
@@ -63,7 +72,10 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Extensions
         public static bool TryCompleteFromEventArgs(this TaskCompletionSource @this, AsyncCompletedEventArgs eventArgs)
         {
             if (eventArgs.Cancelled)
+            {
                 return @this.TrySetCanceled();
+            }
+
             return eventArgs.Error != null ? @this.TrySetException(eventArgs.Error) : @this.TrySetResult();
         }
 

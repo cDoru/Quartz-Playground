@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 using CrystalQuartz.Core.SchedulerProviders;
 using Quartz;
 using Quartz.Impl;
+using QuartzWebTemplate.Quartz.Async;
 
 namespace QuartzWebTemplate.Quartz.Scheduler
 {
@@ -19,18 +21,18 @@ namespace QuartzWebTemplate.Quartz.Scheduler
         {
             if (!IsLazy)
             {
-                LazyInit();
+                AsyncHelper.RunSync(LazyInit);
             }
         }
 
-        private void LazyInit()
+        private async Task LazyInit()
         {
             NameValueCollection properties = null;
             try
             {
                 properties = GetSchedulerProperties();
                 ISchedulerFactory schedulerFactory = new StdSchedulerFactory(properties);
-                _scheduler = schedulerFactory.GetScheduler();
+                _scheduler = await schedulerFactory.GetScheduler();
                 InitScheduler(_scheduler);
             }
             catch (Exception ex)
@@ -60,7 +62,7 @@ namespace QuartzWebTemplate.Quartz.Scheduler
             {
                 if (_scheduler == null)
                 {
-                    LazyInit();
+                    AsyncHelper.RunSync(LazyInit);
                 }
 
                 return _scheduler;

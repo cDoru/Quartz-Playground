@@ -31,7 +31,7 @@ namespace QuartzWebTemplate.App_Start
             builder.RegisterModule(new QuartzJobsModule(typeof(AutofacConfiguration).Assembly));
 
             RegisterJobsDependencies(builder);
-            RegisterJobs(builder);
+            JobsConfiguration.RegisterJobs(builder);
 
             AutowireProperties(builder);
 
@@ -75,21 +75,6 @@ namespace QuartzWebTemplate.App_Start
             builder.RegisterType<SynchronizationTokenHolder>().As<ISynchronizationTokenHolder>().SingleInstance();
         }
 
-        private static void RegisterJobs(ContainerBuilder builder)
-        {
-            var type = typeof(ISelfDescribingJob);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsAbstract).ToList();
-            
-            foreach (var implementation in types)
-            {
-                builder.RegisterType(implementation)
-                    .As<ISelfDescribingJob>()
-                    .Keyed<ISelfDescribingJob>(implementation.Name)
-                    .InstancePerLifetimeScope();
-            }
-        }
 
         static void DbConfiguration_Loaded(object sender, DbConfigurationLoadedEventArgs e)
         {

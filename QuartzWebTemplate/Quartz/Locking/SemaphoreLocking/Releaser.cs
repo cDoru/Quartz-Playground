@@ -52,8 +52,11 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking
             lock (tracker)
             {
                 SemaphoreSlimTracker tmp;
+                
                 if (tracker.ReferenceCount == 0 && semaphores.TryRemove(token, out tmp))
+                {
                     tracker.Dispose();
+                }
             }
         }
     }

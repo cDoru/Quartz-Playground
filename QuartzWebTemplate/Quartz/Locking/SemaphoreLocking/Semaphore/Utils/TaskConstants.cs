@@ -7,6 +7,7 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Utils
     /// </summary>
     public static class TaskConstants
     {
+        // ReSharper disable once InconsistentNaming
         private static readonly Task<bool> booleanTrue = TaskShim.FromResult(true);
         private static readonly Task<int> IntNegativeOne = TaskShim.FromResult(-1);
 

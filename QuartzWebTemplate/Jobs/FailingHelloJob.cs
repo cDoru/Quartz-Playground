@@ -1,41 +1,36 @@
-using System;
-using Quartz;
-using QuartzWebTemplate.Quartz;
-using QuartzWebTemplate.Services;
-
 namespace QuartzWebTemplate.Jobs
 {
-    [PersistJobDataAfterExecution]
-    [DisallowConcurrentExecution]
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public class FailingHelloJob : SelfDescribingJobBase
-    {
-        private readonly IFailingHelloService _failingHelloService;
+    //[PersistJobDataAfterExecution]
+    //[DisallowConcurrentExecution]
+    //// ReSharper disable once ClassNeverInstantiated.Global
+    //public class FailingHelloJob : SelfDescribingJobBase
+    //{
+    //    private readonly IFailingHelloService _failingHelloService;
 
-        public FailingHelloJob(IFailingHelloService failingHelloService)
-        {
-            _failingHelloService = failingHelloService;
-        }
+    //    public FailingHelloJob(IFailingHelloService failingHelloService)
+    //    {
+    //        _failingHelloService = failingHelloService;
+    //    }
 
-        public override void Execute(IJobExecutionContext context)
-        {
-            _failingHelloService.FailToSayHello();
-        }
+    //    public override void Execute(IJobExecutionContext context)
+    //    {
+    //        _failingHelloService.FailToSayHello();
+    //    }
 
-        public override Action<SimpleScheduleBuilder> Cron
-        {
-            get
-            {
-                return x =>
-                    x.WithIntervalInMinutes(1)
-                        .WithMisfireHandlingInstructionNextWithRemainingCount()
-                        .RepeatForever();
-            }
-        }
+    //    public override Action<SimpleScheduleBuilder> Cron
+    //    {
+    //        get
+    //        {
+    //            return x =>
+    //                x.WithIntervalInMinutes(1)
+    //                    .WithMisfireHandlingInstructionNextWithRemainingCount()
+    //                    .RepeatForever();
+    //        }
+    //    }
 
-        protected override string Group
-        {
-            get { return "FailingGroup"; }
-        }
-    }
+    //    protected override string Group
+    //    {
+    //        get { return "FailingGroup"; }
+    //    }
+    //}
 }

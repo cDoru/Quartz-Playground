@@ -7,5 +7,7 @@ namespace QuartzWebTemplate.Quartz
     {
         JobInfo Describe { get; }
         Action<SimpleScheduleBuilder> Cron { get; }
+
+        bool HasActiveSchedule { get; }
     }
 }

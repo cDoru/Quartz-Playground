@@ -21,14 +21,21 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Extensions
         public static Task<T> Enqueue<T>(this IAsyncWaitQueue<T> @this, CancellationToken token)
         {
             if (token.IsCancellationRequested)
+            {
                 return TaskConstants<T>.Canceled;
+            }
 
             var ret = @this.Enqueue();
+
             if (!token.CanBeCanceled)
+            {
                 return ret;
+            }
 
             var registration = token.Register(() => @this.TryCancel(ret).Dispose(), useSynchronizationContext: false);
+
             ret.ContinueWith(_ => registration.Dispose(), CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+
             return ret;
         }
 
@@ -42,20 +49,33 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Extensions
         public static Task<T> Enqueue<T>(this IAsyncWaitQueue<T> @this, object syncObject, CancellationToken token)
         {
             if (token.IsCancellationRequested)
+            {
                 return TaskConstants<T>.Canceled;
+            }
 
             var ret = @this.Enqueue();
+            
             if (!token.CanBeCanceled)
+            {
                 return ret;
+            }
 
             var registration = token.Register(() =>
             {
+                
                 IDisposable finish;
+
                 lock (syncObject)
+                {
                     finish = @this.TryCancel(ret);
+                }
+
                 finish.Dispose();
+
             }, useSynchronizationContext: false);
+
             ret.ContinueWith(_ => registration.Dispose(), CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+            
             return ret;
         }
     }

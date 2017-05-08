@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Quartz;
 
 namespace QuartzWebTemplate.Quartz
 {
     public abstract class SelfDescribingJobBase : ISelfDescribingJob
     {
-        public abstract void Execute(IJobExecutionContext context);
+        public async Task Execute(IJobExecutionContext context)
+        {
+            await Task.Run(() => ExecuteInner(context));
+        }
+
+
+
+        protected abstract void ExecuteInner(IJobExecutionContext context);
 
         public JobInfo Describe
         {
@@ -19,7 +27,12 @@ namespace QuartzWebTemplate.Quartz
             }
         }
 
+        
+
         public abstract Action<SimpleScheduleBuilder> Cron { get; }
+
+        public abstract bool HasActiveSchedule { get; }
         protected abstract string Group { get; }
+        protected abstract bool HasActiveJobSchedule { get; }
     }
 }

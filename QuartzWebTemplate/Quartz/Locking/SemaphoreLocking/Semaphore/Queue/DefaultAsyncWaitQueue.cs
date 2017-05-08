@@ -29,33 +29,44 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         Task<T> IAsyncWaitQueue<T>.Enqueue()
         {
             var tcs = new TaskCompletionSource<T>();
+            
             lock (_queue)
+            {
                 _queue.AddToBack(tcs);
+            }
+
             return tcs.Task;
         }
 
         IDisposable IAsyncWaitQueue<T>.Dequeue(T result)
         {
             TaskCompletionSource<T> tcs;
+
             lock (_queue)
+            {
                 tcs = _queue.RemoveFromFront();
+            }
+
             return new CompleteDisposable<T>(result, tcs);
         }
 
         IDisposable IAsyncWaitQueue<T>.DequeueAll(T result)
         {
             TaskCompletionSource<T>[] taskCompletionSources;
+            
             lock (_queue)
             {
                 taskCompletionSources = _queue.ToArray();
                 _queue.Clear();
             }
+
             return new CompleteDisposable<T>(result, taskCompletionSources);
         }
 
         IDisposable IAsyncWaitQueue<T>.TryCancel(Task task)
         {
             TaskCompletionSource<T> tcs = null;
+            
             lock (_queue)
             {
                 for (var i = 0; i != _queue.Count; ++i)
@@ -77,11 +88,13 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         IDisposable IAsyncWaitQueue<T>.CancelAll()
         {
             TaskCompletionSource<T>[] taskCompletionSources;
+            
             lock (_queue)
             {
                 taskCompletionSources = _queue.ToArray();
                 _queue.Clear();
             }
+
             return new CancelDisposable<T>(taskCompletionSources);
         }
 

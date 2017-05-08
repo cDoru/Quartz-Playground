@@ -35,7 +35,9 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         private Deque(int capacity)
         {
             if (capacity < 1)
+            {
                 throw new ArgumentOutOfRangeException("capacity", "Capacity must be greater than 0.");
+            }
 
             _buffer = new T[capacity];
         }
@@ -48,6 +50,7 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         {
             var enumerable = collection as T[] ?? collection.ToArray();
             var count = enumerable.Count();
+
             if (count > 0)
             {
                 _buffer = new T[count];
@@ -140,11 +143,15 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         public int IndexOf(T item)
         {
             var comparer = EqualityComparer<T>.Default;
-            int ret = 0;
+            var ret = 0;
+            
             foreach (var sourceItem in this)
             {
                 if (comparer.Equals(item, sourceItem))
+                {
                     return ret;
+                }
+
                 ++ret;
             }
 
@@ -194,11 +201,14 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         void ICollection<T>.CopyTo(T[] array, int arrayIndex)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException("array", "Array is null");
+            }
 
-            int count = Count;
+            var count = Count;
             CheckRangeArguments(array.Length, arrayIndex, count);
-            for (int i = 0; i != count; ++i)
+
+            for (var i = 0; i != count; ++i)
             {
                 array[arrayIndex + i] = this[i];
             }
@@ -216,9 +226,12 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         /// </exception>
         public bool Remove(T item)
         {
-            int index = IndexOf(item);
+            var index = IndexOf(item);
+
             if (index == -1)
+            {
                 return false;
+            }
 
             DoRemoveAt(index);
             return true;
@@ -232,8 +245,8 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         /// </returns>
         public IEnumerator<T> GetEnumerator()
         {
-            int count = Count;
-            for (int i = 0; i != count; ++i)
+            var count = Count;
+            for (var i = 0; i != count; ++i)
             {
                 yield return DoGetItem(i);
             }
@@ -305,10 +318,13 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         void System.Collections.ICollection.CopyTo(Array array, int index)
         {
             if (array == null)
+            {
                 throw new ArgumentNullException("array", "Destination array cannot be null.");
+            }
+
             CheckRangeArguments(array.Length, index, Count);
 
-            for (int i = 0; i != Count; ++i)
+            for (var i = 0; i != Count; ++i)
             {
                 try
                 {
@@ -432,20 +448,28 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
             set
             {
                 if (value < 1)
+                {
                     throw new ArgumentOutOfRangeException("value", "Capacity must be greater than 0.");
+                }
 
                 if (value < Count)
+                {
                     throw new InvalidOperationException("Capacity cannot be set to a value less than Count");
+                }
 
                 if (value == _buffer.Length)
+                {
                     return;
+                }
 
                 // Create the new buffer and copy our existing range.
-                T[] newBuffer = new T[value];
+                var newBuffer = new T[value];
+
                 if (IsSplit)
                 {
                     // The existing buffer is split, so we have to copy it in parts
-                    int length = Capacity - _offset;
+                    
+                    var length = Capacity - _offset;
                     Array.Copy(_buffer, _offset, newBuffer, 0, length);
                     Array.Copy(_buffer, 0, newBuffer, length, Count - length);
                 }
@@ -511,7 +535,8 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 DoAddToFront(item);
                 return;
             }
-            else if (index == Count)
+
+            if (index == Count)
             {
                 DoAddToBack(item);
                 return;
@@ -531,7 +556,8 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 DoRemoveFromFront();
                 return;
             }
-            else if (index == Count - 1)
+
+            if (index == Count - 1)
             {
                 DoRemoveFromBack();
                 return;
@@ -547,9 +573,11 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         /// <returns>The value of <see cref="_offset"/> after it was incremented.</returns>
         private int PostIncrement(int value)
         {
-            int ret = _offset;
+            var ret = _offset;
+
             _offset += value;
             _offset %= Capacity;
+
             return ret;
         }
 
@@ -561,8 +589,12 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         private int PreDecrement(int value)
         {
             _offset -= value;
+
             if (_offset < 0)
+            {
                 _offset += Capacity;
+            }
+
             return _offset;
         }
 
@@ -592,7 +624,7 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         /// <returns>The former last element.</returns>
         private T DoRemoveFromBack()
         {
-            T ret = _buffer[DequeIndexToBufferIndex(Count - 1)];
+            var ret = _buffer[DequeIndexToBufferIndex(Count - 1)];
             --Count;
             return ret;
         }
@@ -623,10 +655,13 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 // Move lower items down: [0, index) -> [Capacity - collectionCount, Capacity - collectionCount + index)
                 // This clears out the low "index" number of items, moving them "collectionCount" places down;
                 //   after rotation, there will be a "collectionCount"-sized hole at "index".
-                int copyCount = index;
-                int writeIndex = Capacity - collectionCount;
-                for (int j = 0; j != copyCount; ++j)
+                var copyCount = index;
+                var writeIndex = Capacity - collectionCount;
+
+                for (var j = 0; j != copyCount; ++j)
+                {
                     _buffer[DequeIndexToBufferIndex(writeIndex + j)] = _buffer[DequeIndexToBufferIndex(j)];
+                }
 
                 // Rotate to the new view
                 PreDecrement(collectionCount);
@@ -636,15 +671,18 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 // Inserting into the second half of the list
 
                 // Move higher items up: [index, count) -> [index + collectionCount, collectionCount + count)
-                int copyCount = Count - index;
-                int writeIndex = index + collectionCount;
-                for (int j = copyCount - 1; j != -1; --j)
+                var copyCount = Count - index;
+                var writeIndex = index + collectionCount;
+
+                for (var j = copyCount - 1; j != -1; --j)
+                {
                     _buffer[DequeIndexToBufferIndex(writeIndex + j)] = _buffer[DequeIndexToBufferIndex(index + j)];
+                }
             }
 
             // Copy new items into place
-            int i = index;
-            foreach (T item in collection)
+            var i = index;
+            foreach (var item in collection)
             {
                 _buffer[DequeIndexToBufferIndex(i)] = item;
                 ++i;
@@ -668,7 +706,8 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 Count -= collectionCount;
                 return;
             }
-            else if (index == Count - collectionCount)
+
+            if (index == Count - collectionCount)
             {
                 // Removing from the ending: trim the existing view
                 Count -= collectionCount;
@@ -680,10 +719,13 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 // Removing from first half of list
 
                 // Move lower items up: [0, index) -> [collectionCount, collectionCount + index)
-                int copyCount = index;
-                int writeIndex = collectionCount;
-                for (int j = copyCount - 1; j != -1; --j)
+                var copyCount = index;
+                var writeIndex = collectionCount;
+                
+                for (var j = copyCount - 1; j != -1; --j)
+                {
                     _buffer[DequeIndexToBufferIndex(writeIndex + j)] = _buffer[DequeIndexToBufferIndex(j)];
+                }
 
                 // Rotate to new view
                 PostIncrement(collectionCount);
@@ -693,10 +735,13 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
                 // Removing from second half of list
 
                 // Move higher items down: [index + collectionCount, count) -> [index, count - collectionCount)
-                int copyCount = Count - collectionCount - index;
-                int readIndex = index + collectionCount;
-                for (int j = 0; j != copyCount; ++j)
+                var copyCount = Count - collectionCount - index;
+                var readIndex = index + collectionCount;
+                
+                for (var j = 0; j != copyCount; ++j)
+                {
                     _buffer[DequeIndexToBufferIndex(index + j)] = _buffer[DequeIndexToBufferIndex(readIndex + j)];
+                }
             }
 
             // Adjust valid count
@@ -743,7 +788,7 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore.Queue
         public void InsertRange(int index, IEnumerable<T> collection)
         {
             var enumerable = collection as T[] ?? collection.ToArray();
-            int collectionCount = enumerable.Count();
+            var collectionCount = enumerable.Count();
             CheckNewIndexArgument(Count, index);
 
             // Overflow-safe check for "this.Count + collectionCount > this.Capacity"

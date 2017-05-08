@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Quartz;
 using Quartz.Impl;
 
@@ -6,12 +7,12 @@ namespace QuartzWebTemplate.Quartz.Scheduler
 {
     public static class QuartzHelper
     {
-        public static void MaybeRegister<T>(IScheduler scheduler, T job) where T : ISelfDescribingJob
+        public static async Task MaybeRegister<T>(IScheduler scheduler, T job) where T : ISelfDescribingJob
         {
             var description = job.Describe;
             var jobKey = new JobKey(description.JobName, description.JobGroup);
 
-            if (scheduler.CheckExists(jobKey)) return;
+            if (await scheduler.CheckExists(jobKey)) return;
             
 
             var jobDetail = JobBuilder.Create<T>()
@@ -26,7 +27,7 @@ namespace QuartzWebTemplate.Quartz.Scheduler
                 .StartAt(DateTime.Now)
                 .Build();
 
-            scheduler.ScheduleJob(jobDetail, jobTrigger);
+            await scheduler.ScheduleJob(jobDetail, jobTrigger);
         }
     }
 }

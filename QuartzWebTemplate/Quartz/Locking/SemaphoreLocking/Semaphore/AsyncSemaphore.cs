@@ -81,6 +81,7 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore
         public Task WaitAsync(CancellationToken cancellationToken)
         {
             Task ret;
+
             lock (_mutex)
             {
                 // If the semaphore is available, take it immediately and return.
@@ -130,24 +131,38 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking.Semaphore
         private void Release(int releaseCount)
         {
             if (releaseCount == 0)
+            {
                 return;
+            }
+
             var finishes = new List<IDisposable>();
+            
             lock (_mutex)
             {
                 if (_count > int.MaxValue - releaseCount)
+                {
                     throw new InvalidOperationException("Could not release semaphore.");
+                }
 
                 while (releaseCount != 0)
                 {
                     if (_queue.IsEmpty)
+                    {
                         ++_count;
+                    }
                     else
+                    {
                         finishes.Add(_queue.Dequeue());
+                    }
+
                     --releaseCount;
                 }
             }
+
             foreach (var finish in finishes)
+            {
                 finish.Dispose();
+            }
         }
 
         /// <summary>

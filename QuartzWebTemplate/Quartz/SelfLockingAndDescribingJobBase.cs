@@ -15,7 +15,7 @@ namespace QuartzWebTemplate.Quartz
             _lock = @lock;
         }
 
-        public override void Execute(IJobExecutionContext context)
+        protected override void ExecuteInner(IJobExecutionContext context)
         {
             var dataMap = context.MergedJobDataMap;
             if (!dataMap.ContainsKey(DataMapKey))
@@ -37,11 +37,15 @@ namespace QuartzWebTemplate.Quartz
                 }
 
                 // do your shit
-                ExecuteInner(context);
+                ExecuteInnerInner(context);
             }
         }
 
-        protected abstract void ExecuteInner(IJobExecutionContext context);
+        /// <summary>
+        /// Not good. leaving this here to improve it at a later time. afterall this is a learning playground, so only parts of this will have production reliability
+        /// </summary>
+        /// <param name="context"></param>
+        protected abstract void ExecuteInnerInner(IJobExecutionContext context);
         protected virtual string GetLockHeader { get { return GetType().Name + "-"; } }
     }
 }

@@ -22,7 +22,10 @@ namespace QuartzWebTemplate.Quartz.Locking.SemaphoreLocking
         public AwaitableDisposable(Task<T> task)
         {
             if (task == null)
+            {
                 throw new ArgumentNullException("task");
+            }
+
             _task = task;
         }
 
