@@ -91,6 +91,10 @@
       <HintPath>..\packages\Quartz.ScheduleConfiguration.1.0.0\lib\net45\Quartz.ScheduleConfiguration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Quartz.Serialization.Json, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.Serialization.Json.3.0.0-alpha2\lib\net45\Quartz.Serialization.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SuperSocket.ClientEngine, Version=0.8.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SuperSocket.ClientEngine.0.8.0.10\lib\net45\SuperSocket.ClientEngine.dll</HintPath>
       <Private>True</Private>
