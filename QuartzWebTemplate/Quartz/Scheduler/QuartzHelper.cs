@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Quartz;
 using Quartz.Impl;
@@ -28,6 +29,18 @@ namespace QuartzWebTemplate.Quartz.Scheduler
                 .Build();
 
             await scheduler.ScheduleJob(jobDetail, jobTrigger);
+        }
+
+        public static async Task TriggerNow<T>(IScheduler scheduler, T job, DateTime start, params Tuple<string, string>[] variables) where T : ISelfDescribingJob
+        {
+            var description = job.Describe;
+
+            // form the job key
+            var jobKey = new JobKey(description.JobName, description.JobGroup);
+
+            var dataMapFeed = variables.ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
+            JobDataMap dataMap = new JobDataMap(dataMapFeed);
+            await scheduler.TriggerJob(jobKey, dataMap);
         }
     }
 }

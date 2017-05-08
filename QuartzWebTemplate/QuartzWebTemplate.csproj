@@ -254,13 +254,16 @@
     <Compile Include="Exceptions\AutofacJobKeyEmptyException.cs" />
     <Compile Include="Exceptions\AutofacJobKeyMissingException.cs" />
     <Compile Include="Exceptions\DataMapIdentifierNullException.cs" />
+    <Compile Include="Exceptions\DataMapItemMissingException.cs" />
     <Compile Include="Exceptions\DataMapKeyMissingException.cs" />
     <Compile Include="Exceptions\LockAcquisitionException.cs" />
     <Compile Include="Exceptions\ResolverException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Contracts\INow.cs" />
     <Compile Include="Infrastructure\Contracts\IResolver.cs" />
+    <Compile Include="Infrastructure\NowImplementation.cs" />
     <Compile Include="Infrastructure\Resolver.cs" />
     <Compile Include="Jobs\Attributes\AutofacJobKeyAttribute.cs" />
     <Compile Include="Jobs\Attributes\DontRegisterAttribute.cs" />

@@ -59,7 +59,7 @@ namespace QuartzWebTemplate.App_Start
             builder.RegisterType<HelloService>().As<IHelloService>().InstancePerLifetimeScope();
             builder.RegisterType<FailingHelloService>().As<IFailingHelloService>().InstancePerLifetimeScope();
             builder.RegisterType<QuartzConfiguration>().As<IQuartzConfiguration>().InstancePerLifetimeScope();
-
+            builder.RegisterType<NowImplementation>().As<INow>().InstancePerLifetimeScope();
             builder.Register<Func<IQuartzConfiguration>>(x => () => Container.Resolve<IQuartzConfiguration>());
 
             builder.RegisterType<BasicAuthentication>().As<IHttpModule>().InstancePerLifetimeScope();
